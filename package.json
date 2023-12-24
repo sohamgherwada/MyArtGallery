@@ -1,0 +1,19 @@
+{
+  "name": "termproject",
+  "version": "1.0.0",
+  "description": "This an Art Gallery",
+  "main": "server.js",
+  "type": "module",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "mongodb": "^6.3.0",
+    "axios": "^0.26.1"
+    },
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js"
+  },
+  "author": "Soham Gherwada",
+  "license": "ISC"
+}
