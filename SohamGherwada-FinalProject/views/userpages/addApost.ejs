@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artwork Form</title>
+    <script>
+                var validImage = false; // Add this line
+
+        function previewForm() {
+            var title = document.forms["artworkForm"]["title"].value;
+            var year = document.forms["artworkForm"]["year"].value;
+            var category = document.forms["artworkForm"]["category"].value;
+            var medium = document.forms["artworkForm"]["medium"].value;
+            var description = document.forms["artworkForm"]["description"].value;
+            var url = document.forms["artworkForm"]["poster"].value;
+
+            var preview = document.getElementById("preview");
+            preview.innerHTML = "<h1>" + title + "</h1>" +
+                                "<p><strong>Year:</strong> " + year + "</p>" +
+                                "<p><strong>Category:</strong> " + category + "</p>" +
+                                "<p><strong>Medium:</strong> " + medium + "</p>" +
+                                "<p><strong>Description:</strong> " + description + "</p>";
+
+            var img = new Image();
+            img.onload = function() {
+                preview.appendChild(this);
+            };
+            img.onerror = function() {
+                preview.innerHTML += "<p>Invalid image URL.</p>";
+            };
+            img.src = url;
+        }
+    </script>
+</head>
+<body>
+    <form name="artworkForm">
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title" oninput="previewForm()"><br>
+        <label for="year">Year:</label><br>
+        <input type="text" id="year" name="year" oninput="previewForm()"><br>
+        <label for="category">Category:</label><br>
+        <input type="text" id="category" name="category" oninput="previewForm()"><br>
+        <label for="medium">Medium:</label><br>
+        <input type="text" id="medium" name="medium" oninput="previewForm()"><br>
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description" oninput="previewForm()"></textarea><br>
+        <label for="poster">Poster:</label><br>
+        <input type="text" id="poster" name="poster" placeholder="Enter image URL here" oninput="previewForm()"><br>
+        <button class="submit">Submit</button>
+        <div id="preview"></div>        
+        </form>
+    <script>
+
+        document.querySelector(".submit").addEventListener("click", function() {
+            event.preventDefault();
+            var title = document.forms["artworkForm"]["title"].value;
+            var year = document.forms["artworkForm"]["year"].value;
+            var category = document.forms["artworkForm"]["category"].value;
+            var medium = document.forms["artworkForm"]["medium"].value;
+            var description = document.forms["artworkForm"]["description"].value;
+            var url = document.forms["artworkForm"]["poster"].value;
+            var yearRegex = /^[0-9]+$/;
+            if (!year.match(yearRegex)) {
+                alert("The year field should contain only numbers.");
+                return;
+            }
+            let Post = {
+                Title: title,
+                Year: year,
+                Category: category,
+                Medium: medium,
+                Description: description,
+                Poster: url,
+                likes: 0,
+                Comment:[]
+            }
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", '/send', true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        window.location.href = "/gallery"
+                    } else if(xhr.status === 401){
+                        alert("The image link is invalid")
+                    }else if (xhr.status ===402) {
+                        alert("The post already exit");
+                    }else {
+                        alert("Enter all the fields");
+                    }
+                }
+            };
+            var data = JSON.stringify(Post);
+            xhr.send(data);
+        });
+
+    </script>
+</body>
+</html>
+

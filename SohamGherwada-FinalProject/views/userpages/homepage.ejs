@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet"  href="home.css">
+
+</head>
+<body>
+    <header>
+        <% if(alldata.user.patron) { %>
+            <a href="/login/<%= alldata.user.username %>">User Profile</a>
+        <% } else { %>
+            <a href="/artistprofile/<%= alldata.user.username %>">User Profile</a>
+        <% } %>
+        <a href="/gallery">Gallery</a>
+        <a href="/search">Search</a>
+    </header>
+        <h1 id="Welcome">Welcome To the Gallery</h1>
+
+    <div id="middle">
+        <div id="posts" class="post">
+            <% alldata.posts.forEach(function(post){ %>
+                <div class="postContainter">
+                    <h2> <a href="/art/<%= post.Artist%>/<%= post.Title %>"><%= post.Title %></a> By <a href="/artist/<%= post.Artist %>"><%= post.Artist %></a> is a <%= post.Category %> art</h2>
+                    <p>made in <%= post.Year %> using <%= post.Medium %></p>
+                    <img src="<%= post.Poster %>" alt="Post image" >
+                    <p><%= post.Description %></p>
+                </div>
+            <% }); %>
+        </div>
+    </div>    
+    <button class="Logout">Logout</button>
+
+    <script>
+        // Logout button click event listener
+        document.querySelector(".Logout").addEventListener("click", function(){
+            var xhr = new XMLHttpRequest();
+            let url ='http://localhost:3000/logout';
+            xhr.open('POST', url, true);
+            // Send the proper header information along with the request
+            xhr.setRequestHeader('Content-Type', 'application/html'); 
+
+            xhr.onload = function(){
+                if (this.status == 200) {
+                    window.location.href = "/logout" ;
+                }else{
+                    alert("The item was not Updated");
+                }
+            }
+            
+            xhr.send();
+        });
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+/* This is the modified CSS code for your web page */
+
+/* Use a custom font for the whole document */
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap');
+* {
+  font-family: 'Lato', sans-serif;
+  box-sizing: border-box; /* Moved this property here */
+}
+.like {
+  color: #e6e6e6;
+  margin: 0 15px;
+  text-decoration: none;
+}
+
+
+
+.but {
+  background-color: #2b83ff;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+  position:relative;
+  text-shadow: 0px 1px 0px #000;
+  filter: dropshadow(color=#000, offx=0px, offy=1px);
+  box-shadow:inset 0 1px 0 #FFE5C4, 0 10px 0 #915100;
+}
+
+.but :active{
+  top:10px;
+  background-color:#F78900;
+  box-shadow:inset 0 1px 0 #FFE5C4, inset 0 -3px 0 #915100;
+}
+
+.but :after{
+  content:"";
+  height:100%;
+  width:100%;
+  padding:4px;
+  position: absolute;
+  bottom:-15px;
+  left:-4px;
+  z-index:-1;
+  background-color:#2B1800;
+  border-radius: 5px;
+}
+
+/* Add some colors and margins to the header */
+header {
+  background-color: #eee;
+  color: #333;
+  margin: 0;
+  padding: 10px;
+}
+
+/* Make the links in the header look nice */
+header a {
+  color: #333;
+  text-decoration: none;
+  margin-right: 20px;
+}
+
+/* Add some hover effects to the links in the header */
+header a:hover {
+  color: #999;
+}
+
+/* Style the container element */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Style the h2 elements */
+h2 {
+  color: #333;
+  text-align: center;
+}
+
+/* Style the p elements */
+p {
+  color: #666;
+  text-align: justify;
+}
+
+/* Style the links in the container element */
+.container a {
+  color: #333;
+  text-decoration: none;
+}
+
+/* Add some hover effects to the links in the container element */
+.container a:hover {
+  color: #999;
+}
+
+/* Style the img-magnifier-container element */
+.img-magnifier-container {
+  position: relative;
+  overflow: hidden; /* Added this property to hide the magnifier glass when it goes out of the image */
+}
+
+/* Style the img-magnifier-glass element */
+.img-magnifier-glass {
+  position: absolute;
+  border: 3px solid #000;
+  border-radius: 50%;
+  cursor: none;
+  /* Set the size of the magnifier glass: */
+  width: 100px;
+  height: 100px;
+  /* Add some box-shadow and transition effects to the magnifier glass */
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+/* Add some hover effects to the img-magnifier-glass element */
+.img-magnifier-glass:hover {
+  width: 150px;
+  height: 150px;
+}
+
+/* Style the artwork element */
+#artwork {
+  width: 600px;
+  /* Add some border and box-shadow effects to the artwork element */
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.button a {
+  display: inline-block;
+  padding: 10px 20px;
+  color: #fff;
+  background-color: #2b83ff;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.button a:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ff7f00;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+  z-index: -1;
+}
+
+.button a:hover {
+  color: #fff;
+  background-color: #ff7f00;
+}
+
+.button a:hover:before {
+  transform: scaleX(1);
+}

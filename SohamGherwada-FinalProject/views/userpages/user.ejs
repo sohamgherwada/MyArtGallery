@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet"  href="user.css">
+
+</head>
+<body>
+    <header>
+        <a href="/login/<%=alldata.user.username %>">User Profile</a>
+        <a href="/gallery">Gallery</a>
+        <a href="/search">Search</a>
+        <a href="/notification%>">Notification</a>
+        <button class="Logout">Logout</button>
+        <button class="Switch">Switch Account</button>
+    </header>
+
+    <h1>Welcome <%= alldata.user.username %></h1>
+    <h1>All the post by the Artist you follow</h1>
+    <div class="post">
+        <% alldata.posts.forEach(function(post){ %>
+            <div class="postContainter">
+                <h2><%= post.Title %> By <a href="/artist/<%= post.Artist %>"><%= post.Artist %></a> is a <%= post.Category %> art</h2>
+                <p>made in <%= post.Year %> using <%= post.Medium %></p>
+                <p><%= post.Description %></p>
+                <img src="<%= post.Poster %>" alt="Post image" >
+            </div>
+        <% }); %> 
+    </div>
+    <h1>Liked Post</h1>
+    <div class="post">
+        <% alldata.likedPost.forEach(function(likedPost){ %>
+            <div class="postContainter">
+                <h2><%= likedPost.Title %> By <a href="/artist/<%= likedPost.Artist %>"><%= likedPost.Artist %></a> is a <%= likedPost.Category %> art</h2>
+                <p>made in <%= likedPost.Year %> using <%= likedPost.Medium %></p>
+                <p><%= likedPost.Description %></p>
+                <img src="<%= likedPost.Poster %>" alt="Post image" >
+            </div>
+        <% }); %> 
+    </div>
+    <h1>Commented Post</h1>
+    <div class="post">
+        <% alldata.commentedPost.forEach(function(commentedPost){ %>
+            <div class="postContainter">
+                <h2><%= commentedPost.Title %> By <a href="/artist/<%= commentedPost.Artist %>"><%= commentedPost.Artist %></a> is a <%= commentedPost.Category %> art</h2>
+                <p>made in <%= commentedPost.Year %> using <%= commentedPost.Medium %></p>
+                <p><%= commentedPost.Description %></p>
+                <img src="<%= commentedPost.Poster %>" alt="Post image" >
+            </div>
+        <% }); %> 
+    </div>
+    <script>
+        // Logout button click event listener
+        document.querySelector(".Logout").addEventListener("click", function(){
+            var xhr = new XMLHttpRequest();
+            let url ='http://localhost:3000/logout';
+            xhr.open('POST', url, true);
+            // Send the proper header information along with the request
+            xhr.setRequestHeader('Content-Type', 'application/html'); 
+
+            xhr.onload = function(){
+                if (this.status == 200) {
+                    window.location.href = "/logout" ;
+                }else{
+                    alert("The item was not Updated");
+                }
+            }
+            xhr.send();
+        });
+        document.querySelector(".Switch").addEventListener("click", function(){
+            //send an xhr reques and if sunccessfull open a the artist page
+            var userResponse = confirm("Do you want to switch?");
+            var xhr = new XMLHttpRequest();
+            let url ='http://localhost:3000/switch';
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-Type', 'application/html'); 
+
+            xhr.onload = function(){
+                if (this.status == 200) {
+                    let responseID = JSON.parse(xhr.responseText);
+                    window.location.href = "/artistprofile/"+responseID.user.Artist;
+                }else if(this.status == 201){
+                    window.location.href = "/addPost";
+                }else{
+                    alert("The item was not Updated");
+                }
+            }
+            xhr.send();
+        });   
+    </script>
+
+</body>
+</html>

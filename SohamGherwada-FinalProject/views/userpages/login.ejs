@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Days+One" />
+</head>
+<body>
+    <div class="container">
+        <img src="img/artgallery.jpg" alt="" class="imgBack">
+        <div class="overlay">
+            <h1>Login</h1>
+            <form id="loginForm">
+                <label for="username" class="Lbl">Username:</label>
+                <input type="text" id="username" name="username" required><br>
+                <label for="password" class="Lbl">Password:</label>
+                <input type="password" id="password" name="password" required><br>
+                <button type="submit">Login</button>
+                <button type="button" id="reg">Register</button>        
+            </form>
+        </div>
+    </div>
+
+    <script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        let user = document.getElementById('username').value;
+        let pass = document.getElementById('password').value;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", '/login', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                let responseID = JSON.parse(xhr.responseText);
+                
+                window.location.href = '/login/'+responseID.user;
+            } else if (xhr.readyState === 4 && xhr.status === 400) {
+                alert('A user is already logged in');
+            } else if (xhr.readyState === 4 && xhr.status === 401) {
+                alert("Wrong password");
+            }else if (xhr.readyState === 4 && xhr.status === 201){
+                alert("Click on the register button to being able to register the user!");
+            }else if (xhr.readyState === 4 && xhr.status === 300){
+                let responseID = JSON.parse(xhr.responseText);
+                window.location.href = '/artistprofile/'+responseID.user;
+            }
+        };
+        xhr.send(JSON.stringify({
+            username: user,
+            password: pass
+        }));
+    });
+
+    document.getElementById('reg').addEventListener('click', function() {
+        let user = document.getElementById('username').value;
+        let pass = document.getElementById('password').value;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", '/register', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                alert('Registration successful');
+                window.location.href = '/login/'+responseID.user;
+            } else if (xhr.readyState === 4 && xhr.status === 401) {
+                alert('A user with this username already exists');
+            } else if (xhr.readyState === 4 && xhr.status === 400){
+                alert('Another is user is using the website');
+            }else if (xhr.readyState === 4 && xhr.status === 300){
+                let responseID = JSON.parse(xhr.responseText);
+                window.location.href = '/artistprofile/'+responseID.user;
+            }
+        };
+        xhr.send(JSON.stringify({
+            username: user,
+            password: pass
+        }));
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <% if(alldata.user.patron) { %>
+            <a href="/login/<%= alldata.user.username %>">User Profile</a>
+        <% } else { %>
+            <a href="/artistprofile/<%= alldata.user.username %>">User Profile</a>
+        <% } %>
+        <a href="/gallery">Gallery</a>
+    </header>
+    <input type="text" id="Title" placeholder="SearchTitle">
+    <input type="text" id="Artist" placeholder="SearchArtist">
+    <input type="text" id="Year" placeholder="SearchYear">
+    <input type="text" id="Category" placeholder="SearchCategory">
+    <input type="text" id="Medium" placeholder="SearchMedium">
+    <input type="text" id="Description" placeholder="SearchDescription">
+    <input type="text" id="Poster" placeholder="SearchPoster">
+   
+    <button onclick="makeRequest()">Search</button>
+    <div id="results">
+        <% if (alldata.user.search.length > 0) { %>
+            <% alldata.user.search.forEach(function(post){ %>
+                <div class="postContainter">
+                    <h2> <a href="/art/<%= post.Artist%>/<%= post.Title %>"><%= post.Title %></h2>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <h1>Nothing was found</h1>
+            <% alldata.posts.forEach(function(post){ %>
+                <div class="postContainter">
+                    <h2> <a href="/art/<%= post.Artist%>/<%= post.Title %>"><%= post.Title %></h2>
+                </div>
+            <% }); %>
+        <% } %>
+    </div>
+    
+    <script>
+        function makeRequest() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("PUT", "/search", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Parse the response text to a JavaScript object
+                    window.location.reload();             
+                }
+            };
+            var data = JSON.stringify({
+                "Title": document.getElementById('Title').value,
+                "Artist": document.getElementById('Artist').value,
+                "Year": document.getElementById('Year').value,
+                "Category": document.getElementById('Category').value,
+                "Medium": document.getElementById('Medium').value,
+                "Description": document.getElementById('Description').value,
+                "Poster": document.getElementById('Poster').value
+            });
+            xhr.send(data);
+        }    
+    </script>
+</body>
+</html>

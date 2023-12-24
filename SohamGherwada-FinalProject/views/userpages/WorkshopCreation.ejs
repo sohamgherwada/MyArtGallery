@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workshop Form</title>
+    
+</head>
+<body>
+    <head>
+        <a href="/gallery">Gallery</a>
+    </head>
+    <form >
+        <label for="workshopName">Workshop Name:</label><br>
+        <input type="text" id="workshopName" name="workshopName"><br>
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description"></textarea><br>
+        <input type="button" value="Submit" onclick="submitForm()">
+    </form>
+    <% alldata.workShops.forEach(function(workShop){ %>
+        <% if(!workShop.workShops || Object.keys(workShop.workShops).length === 0) { %>
+            <div class="postContainter">
+                <p>This workshop is empty.</p>
+            </div>
+        <% } else { %>
+            <% Object.entries(workShop.workShops).forEach(([key, value]) => { %>
+                <div class="postContainter">
+                    <h1><%=key%></h1>
+                    <p><%=value.description%></p> 
+                    <% if(value.users && value.users.length > 0) { %>
+                        <p>Users: <%=value.users.join(', ')%></p> <!-- Print the users -->
+                    <% } else { %>
+                        <p>No user has joined.</p> <!-- Print 'No user has joined' if the users array is empty -->
+                    <% } %>
+                </div>
+            <% }) %>
+        <%}%>
+    <% }) %>
+    
+            
+    <script>
+        function submitForm() {
+            var urlPath = window.location.pathname;
+            var urlParts = urlPath.split('/');
+            var artTitle = urlParts[urlParts.length - 1];
+            var xhr = new XMLHttpRequest();
+            xhr.open("PUT", "/WorkshopCreation/"+artTitle, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            var data = JSON.stringify({
+                "workshopName": document.getElementById('workshopName').value,
+                "description": document.getElementById('description').value
+            });
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        window.location.reload();
+                    }
+                }
+            };
+            xhr.send(data);
+        }
+    </script>
+</body>
+</html>
+

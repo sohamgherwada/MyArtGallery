@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet"  href="artist.css">
+</head>
+<body>
+    <header>
+        <% if(alldata.user[0].patron) { %>
+            <a href="/login/<%= alldata.user[0].username %>">User Profile</a>
+        <% } else { %>
+            <a href="/artistprofile/<%= alldata.user[0].username %>">User Profile</a>
+        <% } %>
+        <a href="/gallery">Gallery</a>
+    </header>
+
+    <% if(alldata.allPost.length > 0) { %>
+        <h1>Welcome to <%= alldata.allPost[0].Artist %> Gallery</h1>
+    <% } else { %>
+        <h1>No posts found for this artist</h1>
+    <% } %>
+    <% if(alldata.artist.Artist !==  alldata.allPost[0].Artist ) { %>
+        <% if(alldata.user[0].patron ) { %>
+            <button class="follow-unfollow"><%= alldata.user[0].FollowingArtist.includes(alldata.allPost[0].Artist) ? 'Unfollow' : 'Follow' %></button>
+            <a href="/workshop/<%=alldata.allPost[0].Artist%>">
+                <button>Workshops</button>
+            </a>
+        <% } %>
+    <%}%>
+    <div class="posts-grid">
+        <% alldata.allPost.forEach(function(post){ %>
+            <div class="post">
+                <h2><a href="/art/<%= post.Artist %>/<%= post.Title %>"><%= post.Title %></a></h2>
+                <img src="<%= post.Poster %>" alt="Post image" >
+            </div>
+        <% }); %>
+    </div>
+    <script>
+        var followUnfollowButton = document.querySelector(".follow-unfollow");
+    
+        followUnfollowButton.addEventListener("click", function() {
+            var xhr = new XMLHttpRequest();
+            var url = followUnfollowButton.textContent === 'Follow' ? '/follow' : '/unfollow';
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Toggle the button text
+                    alert("You are now " + followUnfollowButton.textContent.toLowerCase() + "ing");
+
+                    followUnfollowButton.textContent = followUnfollowButton.textContent === 'Follow' ? 'Unfollow' : 'Follow';
+                }
+            };
+            let sendData = {
+                username: "<%= alldata.user[0].username %>",
+                Artist: "<%= alldata.allPost[0].Artist %>"
+            }
+            xhr.send(JSON.stringify(sendData));
+        }); 
+    </script>
+        
+</body>
+</html>

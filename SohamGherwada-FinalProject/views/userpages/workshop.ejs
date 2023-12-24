@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <head>
+        <a href="/gallery">Gallery</a>
+    </head>
+    <% alldata.workShops.forEach(function(workShop){ %>
+        <% if(!workShop.workShops || Object.keys(workShop.workShops).length === 0) { %>
+            <div class="postContainter">
+                <p>This workshop is empty.</p>
+            </div>
+        <% } else { %>
+            <% Object.entries(workShop.workShops).forEach(([key, value]) => { %>
+                <div class="postContainter">
+                    <% if(!value || Object.keys(value).length === 0) { %>
+                        <p>The workshop <%=key%> is empty.</p>
+                    <% } else { %>
+                        <button class="joinWorkshopButton" data="<%=key%>"><%=key%></button>
+                    <% } %>
+                </div>
+            <% }) %>
+        <% } %>
+    <% }); %>
+    
+
+    <script>
+        document.querySelectorAll('.joinWorkshopButton').forEach(function(button) {
+            button.addEventListener('click', function() {
+                var xhr = new XMLHttpRequest();
+                var urlPath = window.location.pathname;
+                var urlParts = urlPath.split('/');
+                var artTitle = urlParts[urlParts.length - 1];
+                xhr.open('PUT', '/joinWorkshop/'+artTitle, true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            alert("Successfully joined the workshop");
+                        } else {
+                            alert("Already joined the workshop");
+                        }
+                    }
+                };
+                var data = JSON.stringify({
+                    "workshopName": this.getAttribute('data')
+                });
+                xhr.send(data);
+            });
+        });
+    </script>
+</body>
+</html>

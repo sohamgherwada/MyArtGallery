@@ -1,0 +1,79 @@
+/* CSS for artistUser.css */
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: #fff;
+}
+
+header {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+header a {
+    color: #fff;
+    margin: 0 15px;
+    text-decoration: none;
+}
+
+header input[type="text"] {
+    margin: 0 15px;
+    border-radius: 12px;
+    padding: 5px;
+    border: 1px solid #fff;
+    background-color: #000;
+    color: #fff;
+}
+
+header button {
+    background-color: #fff; /* White */
+    border: none;
+    color: #000; /* Black */
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+h1 {
+    color: #fff;
+    text-align: center;
+}
+
+.post {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    justify-items: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.postContainter {
+    background-color: #000;
+    border: 1px solid #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.postContainter h2 a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.postContainter img {
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 12px;
+}
